@@ -16,14 +16,14 @@ int main(int argc, char* argv[]) {
     const char* serverIP = argv[1];
     int port = (argc > 2) ? std::stoi(argv[2]) : 7;
 
-    // Создание TCP сокета
+    // cоздание TCP сокета
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
         std::cerr << "Ошибка: не удалось создать сокет\n";
         return 1;
     }
 
-    // Настройка адреса сервера
+    // настройка адреса сервера
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Установка соединения
+    // установка соединения
     if (connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
         std::cerr << "Ошибка: не удалось подключиться\n";
         close(sock);
@@ -48,10 +48,10 @@ int main(int argc, char* argv[]) {
     while (std::getline(std::cin, message)) {
         if (message == "exit") break;
 
-        // Отправка
+        // отправка
         send(sock, message.c_str(), message.length(), 0);
 
-        // Получение
+        // получение
         char buffer[1024];
         int bytesRead = recv(sock, buffer, sizeof(buffer) - 1, 0);
         if (bytesRead <= 0) {
